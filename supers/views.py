@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404
 @api_view(['GET','POST']) #HTTP request parameters return custom_response + Get all Heroes
 def supers_list(request):
 
-  supers = Super.objects.all()
+  
   
   if request.method == 'GET':
     super_type_param = request.query_params.get('super_type')
@@ -31,13 +31,13 @@ def supers_list(request):
    
 
    
-  elif request.method == 'POST': #Create a super.
+  elif request.method == 'POST': 
       serializer = SuperSerializer(data=request.data)
       serializer.is_valid(raise_exception=True)
       serializer.save()
       return Response(serializer.data,status=status.HTTP_201_CREATED)
 
-@api_view(['GET','PUT','DELETE']) # "GET" super by ID/ "DELETE" super method/ "PUT" Method updating super/
+@api_view(['GET','PUT','DELETE'])
 def supers_detail(request,pk):
   super = get_object_or_404(Super,pk=pk)
   
@@ -48,6 +48,7 @@ def supers_detail(request,pk):
   elif request.method == 'PUT':
     serializer = SuperSerializer(super, data=request.data)
     serializer.is_valid(raise_exception=True)
+    serializer.save()
     return Response(serializer.data,status=status.HTTP_200_OK)
   
   elif request.method == 'DELETE':
